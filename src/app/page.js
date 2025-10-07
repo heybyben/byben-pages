@@ -1,103 +1,175 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { useTheme } from "@/context/ThemeContext";
+
+export default function RetroMacPortfolio() {
+  const { darkMode } = useTheme();
+  const [posts, setPosts] = useState([]);
+
+  // Ambil data postingan blog dari API
+  useEffect(() => {
+    fetch("/api/posts")
+      .then((res) => res.json())
+      .then((data) => setPosts(data))
+      .catch((err) => console.error("Error fetching posts:", err));
+  }, []);
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div
+      className={`min-h-screen font-sans border-4 border-black transition-colors duration-500 ${
+        darkMode ? "bg-[#1a1a1a] text-white" : "bg-[#F9F9F9] text-black"
+      }`}
+    >
+      {/* ✅ Navbar Global */}
+      <Navbar />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      {/* 👋 HERO SECTION */}
+      <section className="px-10 py-16 border-b-4 border-black grid md:grid-cols-2 gap-8 items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-6xl font-extrabold leading-tight mb-4">
+            Hello.<br />I'm{" "}
+            <span className="underline decoration-[6px] decoration-black dark:decoration-white">
+              Ramadhani
+            </span>
+            .
+          </h1>
+          <p className="text-lg mb-6 max-w-md">
+            Just someone who’s interested in Android Custom ROMs — purely for the fun of passing the time.
+          </p>
+          <Link
+            href="/blog"
+            className={`border-4 border-black px-6 py-3 font-bold transition inline-block ${
+              darkMode
+                ? "bg-black text-white hover:bg-[#EAEAEA] hover:text-black"
+                : "bg-white text-black hover:bg-black hover:text-white"
+            }`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            View my latest builds →
+          </Link>
+        </motion.div>
+
+        {/* 🖼️ FOTO PROFIL */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="flex justify-center"
+        >
+          <div
+            className={`border-4 border-black p-6 rounded-md ${
+              darkMode ? "bg-[#2a2a2a]" : "bg-white"
+            }`}
+          >
+            <img
+              src="/byben.jpg"
+              alt="Ramadhani portrait"
+              className="w-64 h-64 object-cover rounded-md border-4 border-black filter grayscale contrast-125 brightness-95 saturate-0 hover:grayscale-0 hover:saturate-100 transition"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </div>
+        </motion.div>
+      </section>
+
+      {/* 📰 BLOG PREVIEW */}
+      <section className="px-10 py-16 border-b-4 border-black">
+        <h2 className="text-4xl font-extrabold mb-8">Latest ROM Builds</h2>
+
+        {posts.length === 0 ? (
+          <p className="text-gray-600 dark:text-gray-300">Loading posts...</p>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-8">
+            {posts.slice(0, 3).map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className={`border-4 border-black hover:-translate-y-1 transition transform ${
+                  darkMode ? "bg-[#2a2a2a]" : "bg-white"
+                }`}
+              >
+                <div
+                  className={`border-b-4 border-black p-2 text-sm font-semibold ${
+                    darkMode ? "bg-[#1f1f1f]" : "bg-[#EAEAEA]"
+                  }`}
+                >
+                  {post.device || "Custom ROM"}
+                </div>
+                <div className="p-5">
+                  <h3 className="text-2xl font-bold mb-2">{post.title}</h3>
+                  <p
+                    className={`text-sm mb-4 ${
+                      darkMode ? "text-gray-300" : "text-gray-600"
+                    }`}
+                  >
+                    {new Date(post.date).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </p>
+                  <p className="text-sm">{post.summary}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-10 text-center">
+          <Link
+            href="/blog"
+            className={`border-4 border-black px-6 py-3 font-bold transition ${
+              darkMode
+                ? "bg-black text-white hover:bg-[#EAEAEA] hover:text-black"
+                : "bg-[#EAEAEA] text-black hover:bg-black hover:text-white"
+            }`}
           >
-            Read our docs
-          </a>
+            View All Builds ↗
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </section>
+
+      {/* 👤 ABOUT SECTION */}
+      <section
+        id="about"
+        className={`px-10 py-16 border-t-4 border-black text-center ${
+          darkMode ? "bg-[#1f1f1f]" : "bg-[#EAEAEA]"
+        }`}
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl font-extrabold mb-6"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          About Me
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="max-w-3xl mx-auto text-lg leading-relaxed font-medium"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          Hi! I’m <strong>Ramadhani</strong> — a tech enthusiast who loves building and customizing{" "}
+        <span className="underline decoration-2 decoration-black dark:decoration-white">
+          Android ROMs
+        </span>{" "}
+          just for fun, performance, and the community.
+        <br />
+        <br />
+          Based in <strong>Indonesia</strong> 🇮🇩 — I enjoy exploring open-source projects and
+          spending late nights on coffee-fueled debugging sessions ☕.
+        </motion.p>
+        </section>
+
+      {/* ✅ FOOTER GLOBAL */}
+      <Footer />
     </div>
   );
 }
