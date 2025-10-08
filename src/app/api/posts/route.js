@@ -12,18 +12,14 @@ export async function GET() {
 
     return {
       slug: filename.replace(".md", ""),
-      title: data.title,
-      date: new Date(data.date).toLocaleDateString("id-ID", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }),
+      title: data.title || "Untitled Post",
+      date: data.date || null,
       device: data.device || "",
       summary: data.summary || "",
     };
   });
 
-  // urutkan berdasarkan tanggal terbaru
+  // ✅ Urutkan dari tanggal terbaru
   posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return Response.json(posts);
