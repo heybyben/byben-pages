@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -69,9 +70,11 @@ export default function RetroMacPortfolio() {
               darkMode ? "bg-[#2a2a2a]" : "bg-white"
             }`}
           >
-            <img
+            <Image
               src="/byben.jpg"
               alt="Ramadhani portrait"
+              width={256}
+              height={256}
               className="w-64 h-64 object-cover rounded-md border-4 border-black filter grayscale contrast-125 brightness-95 saturate-0 hover:grayscale-0 hover:saturate-100 transition"
             />
           </div>
