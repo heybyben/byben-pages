@@ -36,7 +36,7 @@ export default function RetroMacPortfolio() {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-6xl font-extrabold leading-tight mb-4">
-            Hello.<br />I'm{" "}
+            Hello.<br />I&apos;m{" "}
             <span className="underline decoration-[6px] decoration-black dark:decoration-white">
               Ramadhani
             </span>
