@@ -11,15 +11,18 @@ export default function ContactPage() {
 
   return (
     <div
-      className={`min-h-screen font-sans border-4 border-black transition-colors duration-500 ${
-        darkMode ? "bg-[#1a1a1a] text-white" : "bg-[#F9F9F9] text-black"
-      }`}
+      className={`
+        flex flex-col min-h-screen font-sans 
+        transition-colors duration-500
+        ${darkMode ? "bg-[#1a1a1a] text-white" : "bg-[#F9F9F9] text-black"}
+      `}
     >
-      {/* ✅ Navbar global */}
+      {/* Navigation */}
       <Navbar />
 
-      {/* 💬 CONTACT SECTION */}
-      <main className="px-10 py-16 text-center">
+      {/* Contact Section */}
+      <main className="flex-1 px-10 py-16 text-center">
+        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -29,6 +32,7 @@ export default function ContactPage() {
           Get in Touch
         </motion.h1>
 
+        {/* Description */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -39,11 +43,12 @@ export default function ContactPage() {
           <span className="underline decoration-2 decoration-black dark:decoration-white">
             Android ROMs
           </span>{" "}
-          or just want to hang out with fellow tech enthusiasts?  
-          Feel free to join my Telegram group — it’s a chill place to share ideas, ask questions, or just chat about tech stuff.
+          or just want to hang out with fellow tech enthusiasts? Feel free to
+          join my Telegram group — it’s a chill place to share ideas, ask
+          questions, or just chat about tech stuff.
         </motion.p>
 
-        {/* 🚀 TELEGRAM CTA BUTTON */}
+        {/* Telegram CTA */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -54,18 +59,22 @@ export default function ContactPage() {
             href="https://t.me/rmdnsupport"
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex items-center gap-3 border-4 border-black font-bold px-8 py-3 rounded-lg transition ${
-              darkMode
-                ? "bg-black text-white hover:bg-[#EAEAEA] hover:text-black"
-                : "bg-[#EAEAEA] text-black hover:bg-black hover:text-white"
-            }`}
+            className={`
+              inline-flex items-center gap-3 border-4 border-black 
+              font-bold px-8 py-3 rounded-lg transition
+              ${
+                darkMode
+                  ? "bg-black text-white hover:bg-[#EAEAEA] hover:text-black"
+                  : "bg-[#EAEAEA] text-black hover:bg-black hover:text-white"
+              }
+            `}
           >
             <FaTelegramPlane className="text-2xl" />
             Join My Telegram Group
           </a>
         </motion.div>
 
-        {/* 🌐 SOCIAL LINKS */}
+        {/* Social Links */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -73,6 +82,7 @@ export default function ContactPage() {
           className="mt-16 space-y-4"
         >
           <p className="font-semibold text-lg">Connect with me:</p>
+
           <div className="flex justify-center gap-8 text-3xl">
             <a
               href="https://t.me/heybyben"
@@ -82,6 +92,7 @@ export default function ContactPage() {
             >
               <FaTelegramPlane />
             </a>
+
             <a
               href="https://github.com/heybyben"
               target="_blank"
@@ -90,6 +101,7 @@ export default function ContactPage() {
             >
               <FaGithub />
             </a>
+
             <a
               href="https://instagram.com/ramaadni"
               target="_blank"
@@ -102,7 +114,7 @@ export default function ContactPage() {
         </motion.div>
       </main>
 
-      {/* ✅ Footer global */}
+      {/* Footer */}
       <Footer />
     </div>
   );
